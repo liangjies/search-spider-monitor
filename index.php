@@ -18,6 +18,8 @@ a:hover{color: #8000FF; }
 <?php
 error_reporting(0);
 include 'config.php';
+if(!file_exists('bot.db'))
+    include 'creat.php';
 $date=date("Y-m-d");
 $d=strtotime("tomorrow");
 $tom=date("Y-m-d", $d);
@@ -73,7 +75,7 @@ $sql="select count(*) AS id from robots $where";
 $resultc=$DB->query($sql)->fetch();
 //$rsc=mysql_fetch_array($resultc);
 $num=$resultc['id'];//取得数据表的总记录数
-echo $num;
+//echo $num;
 $pagesize=20;//分页大小
 if($_GET[page]<>""){
 $page=$_GET[page]-1;
@@ -83,7 +85,6 @@ $sql="select * from robots $where order by id DESC limit ".$pagesize*$page.",".$
 //$ok=mysql_query($sql,$conn);
 $ok=$DB->query($sql);
 $m=$ok->fetch(PDO::FETCH_NUM);
-print_r($m);
 ?>
 </head>
 <body>
