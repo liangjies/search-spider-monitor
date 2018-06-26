@@ -1,0 +1,80 @@
+<?php
+include('db.php');
+define('DB_PCONNECT',false);
+define('DB_USER','');
+define('DB_HOST','');
+define('DB_NAME','');
+define('DB_PASS','');
+define('DB_PORT','');//留空
+define('DB_HOSTRO','');//留空
+define('DB_PORTRO','');//留空
+define('DB_TYPE','sqlite');
+define('DB_PATH','./bot/bot.db');
+define('DB_A','');
+$DB=new db;
+$db = new PDO("sqlite:./bot/ip.db");
+date_default_timezone_set("Asia/Shanghai");
+@$ax_ym=$_SERVER['REQUEST_URI'];
+@$ax_ss=$_SERVER['HTTP_USER_AGENT'];
+@$ax_url=$_SERVER['HTTP_REFERER'];
+@$ax_ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+@$ax_date=date("Y-m-d");
+@$ax_time=date("H:i:s");
+$baidu=stristr($ax_ss,"Baiduspider");
+$google=stristr($ax_ss,"Googlebot");
+$soso=stristr($ax_ss,"Sosospider");
+$youdao=stristr($ax_ss,"YoudaoBot");
+$bing=stristr($ax_ss,"bingbot");
+$sogou=stristr($ax_ss,"Sogou web spider");
+$yahoo=stristr($ax_ss,"Yahoo! Slurp");
+$Alexa=stristr($ax_ss,"Alexa");
+$so=stristr($ax_ss,"360Spider");
+if($baidu)
+{
+    $ax_ss="baidu";
+}
+elseif($google)
+{
+    $ax_ss="Google";
+}
+elseif($soso)
+{
+    $ax_ss="soso";
+}
+elseif($youdao)
+{
+    $ax_ss="youdao";
+}
+elseif($bing)
+{
+    $ax_ss="bing";
+}
+elseif($sogou)
+{
+    $ax_ss="sogou";
+}
+elseif($yahoo)
+{
+    $ax_ss="yahoo";
+}
+elseif($Alexa)
+{
+    $ax_ss="Alexa";
+}
+elseif($so)
+{
+    $ax_ss="so";
+}
+else
+{
+    $ax_ss=null;
+}
+if($baidu or $google or $soso or $youdao or $bing or $sogou or $yahoo or $Alexa or $so)
+{
+    $zzsql="INSERT INTO robots (robotsname,robotspage,robotsip,riqi,shijian) values ('$ax_ss','$ax_ym','$ax_ip','$ax_date','$ax_time')";
+$DB->exec($zzsql);
+}else{
+$ipsql="INSERT INTO ip (ip,riqi,shijian,page) values ('$ax_ip','$ax_date','$ax_time','$ax_ym')";
+$db->exec($ipsql);
+}
+?>
